@@ -4,7 +4,7 @@ set DESTINATION := SF DET LA MIN STL NM NOLA ;
 
 set PRODUCTS := PROD1 PROD2 PROD3 ;
 
-set CARS :=electronic oil ;
+set CARS := electronic oil ;
 
 
 param supply (tr):  BOSTON   NEW_YORK   NEW_HAVEN :=
@@ -18,11 +18,16 @@ param demand (tr):
    PROD2   500   750   400   250   950   850   500
    PROD3   100   100     0    50   200   100   250 ;
 
-param distance(tr):
-                    SF      DET      LA      MIN     STL      NM      NOLA :=
-   BOSTON          3116     712     2987    1525     1188    2231     1516
-   NEW_YORK        2921     632     2777    1368     953     1974     1305
-   NEW_HAVEN       2985     691     2888    1280     1040    2061     1392;
+
+
+param distance (tr): 	BOSTON		NEW_YORK		NEW_HAVEN :=
+			SF	 		3116   	    2921			2985
+			DET    		712 		632				691
+			LA	 		2987		2777			2888
+			MIN	 		1525		1368			1280
+			STL    		1188		953				1040
+			NM     		2231		1974			2061
+			NOLA   		1516		1305			1392 ;
 
 param revenue    :=
    PROD1      200  
@@ -30,14 +35,15 @@ param revenue    :=
    PROD3      500;
      
 param cost     :=
-   electronic       0.5  
-   oil              2;
+   electronic       5
+   oil              10;
+# 8  10
         
 param rent     :=
-   electronic       1200    
-   oil               800;   
+   electronic       4000    # 1231.16v 
+   oil               1000;   
 
 param capacity :=
-   electronic     10      
-   oil            15 ; 
+   electronic     100      
+   oil            150 ; 
 
