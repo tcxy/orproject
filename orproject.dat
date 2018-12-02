@@ -6,7 +6,36 @@ set PRODUCTS := PROD1 PROD2 PROD3 ;
 
 set CARS := electronic oil ;
 
+set SUPPLIER := SUP01 SUP02 SUP03 SUP04 SUP05 ;
 
+set SIZE := LARGE MEDIUM SMALL ;
+
+param :		s_cost :=
+ SUP01 		5.6
+ SUP02 		5.1
+ SUP03 		3.3
+ SUP04 		5.2
+ SUP05		3.4;
+ 
+param : 	s_limit :=
+  SUP01 		1000000
+  SUP02 		1320000
+  SUP03 		1390000
+  SUP04 		1010000
+  SUP05			1260000;
+  
+param contain:		  LARGE  MEDIUM  SMALL	:=
+  			  SUP01		30		30		60	
+  		  	  SUP02 	20		30		60	
+   			  SUP03 	20		10		30
+ 			  SUP04 	20		40		50	
+			  SUP05		10		20		30;
+
+param component:		LARGE MEDIUM SMALL	:=
+				 PROD1  140		200		500
+				 PROD2  100		100		300
+				 PROD3  300		500		860 ;
+				 
 param supply (tr):  BOSTON   NEW_YORK   NEW_HAVEN :=
             PROD1    400    700    800
             PROD2    800   1600   1800
@@ -14,11 +43,23 @@ param supply (tr):  BOSTON   NEW_YORK   NEW_HAVEN :=
 
 param demand (tr):
            SF   DET   LA   MIN   STL   NM   NOLA :=
-   PROD1   300   300   100    75   650   225   250
+   PROD1   300   300   100    80   650   220   250
    PROD2   500   750   400   250   950   850   500
    PROD3   100   100     0    50   200   100   250 ;
 
+	
+param workers_supply (tr):
+                 BOSTON   NEW_YORK   NEW_HAVEN :=
+           PROD1    16    17         14
+           PROD2    17    20         15
+           PROD3    18    21         16 ;
 
+param workers_demand (tr):
+                 SF    DET    LA    MIN    STL    NM    NOLA :=
+          PROD1  16    17     14    17     17     16.5  15.5
+          PROD2  17    20     15    18     18.5   15.5  17.5
+          PROD3  18    21     16    18     17     15    14;
+	
 
 param distance (tr): 	BOSTON		NEW_YORK		NEW_HAVEN :=
 			SF	 		3116   	    2921			2985
@@ -30,20 +71,20 @@ param distance (tr): 	BOSTON		NEW_YORK		NEW_HAVEN :=
 			NOLA   		1516		1305			1392 ;
 
 param revenue    :=
-   PROD1      200  
-   PROD2      100  
-   PROD3      500;
+   PROD1      4000  
+   PROD2      2000  
+   PROD3      10000;
      
 param cost     :=
-   electronic       5
-   oil              10;
+   electronic       0.1
+   oil              2;
 # 8  10
         
 param rent     :=
-   electronic       4000    # 1231.16v 
-   oil               1000;   
+   electronic        400    # 1231.16v 
+   oil               100;   
 
 param capacity :=
-   electronic     100      
-   oil            150 ; 
+   electronic     2      
+   oil            5 ; 
 
