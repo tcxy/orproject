@@ -1,8 +1,8 @@
 set DEPARTURE := BOSTON NEW_YORK NEW_HAVEN ;
 
-set DESTINATION := SF DET LA MIN STL NM NOLA ;
+set DESTINATION := SF DET LA MIN STL;
 
-set PRODUCTS := PROD1 PROD2 PROD3 ;
+set PRODUCTS := PROD1 PROD2 PROD3 PROD4 PROD5 PROD6;
 
 set CARS := electronic oil ;
 
@@ -10,81 +10,138 @@ set SUPPLIER := SUP01 SUP02 SUP03 SUP04 SUP05 ;
 
 set SIZE := LARGE MEDIUM SMALL ;
 
-param :		s_cost :=
- SUP01 		5.6
- SUP02 		5.1
- SUP03 		3.3
- SUP04 		5.2
- SUP05		3.4;
- 
-param : 	s_limit :=
-  SUP01 		1000000
-  SUP02 		1320000
-  SUP03 		1390000
-  SUP04 		1010000
-  SUP05			1260000;
-  
-param contain:		  LARGE  MEDIUM  SMALL	:=
-  			  SUP01		30		30		60	
-  		  	  SUP02 	20		30		60	
-   			  SUP03 	20		10		30
- 			  SUP04 	20		40		50	
-			  SUP05		10		20		30;
+param n := 6;
+param m := 3;
 
-param component:		LARGE MEDIUM SMALL	:=
-				 PROD1  140		200		500
-				 PROD2  100		100		300
-				 PROD3  300		500		860 ;
-				 
+param p (tr):1 2 3 4 5 6 :=
+           1 3 4 2 7 8 3
+           2 6 8 4 9 3 4
+           3 4 1 5 6 7 4;
+
+param d :=
+1 38
+2 40
+3 35
+4 35
+5 37
+6 20
+;           
 param supply (tr):  BOSTON   NEW_YORK   NEW_HAVEN :=
             PROD1    400    700    800
             PROD2    800   1600   1800
-            PROD3    200    300    300 ;
+            PROD3    200    300    300 
+            PROD4    300    400    600
+            PROD5    250    350    300
+            PROD6    1000  1200   1400;
 
 param demand (tr):
-           SF   DET   LA   MIN   STL   NM   NOLA :=
-   PROD1   300   300   100    80   650   220   250
-   PROD2   500   750   400   250   950   850   500
-   PROD3   100   100     0    50   200   100   250 ;
+           SF   DET   LA   MIN   STL   :=
+   PROD1   300   300   100    80   650   
+   PROD2   500   750   400   250   950    
+   PROD3   100   100     0    50   200     
+   PROD4   200   150   150   180   120    
+   PROD5   100   130   170   200   110    
+   PROD6   500   700   800   400   450   ;
 
-	
-param workers_supply (tr):
+param :  s_cost :=
+ SUP01   6.6
+ SUP02   5.8
+ SUP03   3.9
+ SUP04   5.9
+ SUP05   3.6;
+
+param :  s_limit :=
+  SUP01   3000000
+  SUP02   2200000
+  SUP03   3900000
+  SUP04   2100000
+  SUP05   3600000;
+  
+param contain:    LARGE  MEDIUM  SMALL :=
+             SUP01  30  30  60
+             SUP02  20  30  60
+             SUP03  20  10  30
+             SUP04  20  40  50
+             SUP05  10  20  30;
+
+param component:  LARGE  MEDIUM  SMALL :=
+            PROD1  140  200      500
+            PROD2  100  100      300
+            PROD3  300  500      860
+            PROD4  250  430      700     
+            PROD5  270  500      800
+            PROD6  200  380      600 ;
+
+
+
+param loading_workers (tr):
                  BOSTON   NEW_YORK   NEW_HAVEN :=
            PROD1    16    17         14
            PROD2    17    20         15
-           PROD3    18    21         16 ;
+           PROD3    18    21         16 
+           PROD4    15    18         17
+           PROD5    19    21         18
+           PROD6    14    16         16 ;
+           
+param unloading_workers (tr):
+                 SF    DET    LA    MIN    STL    :=
+          PROD1  16    17     14    17     17     
+          PROD2  17    20     15    18     18.5   
+          PROD3  18    21     16    18     17       
+          PROD4  16.5  18.5   17.5  19     15       
+          PROD5  17    19     18    16     17.5    
+          PROD6  16.5  17     18.5  15     17      ;
 
-param workers_demand (tr):
-                 SF    DET    LA    MIN    STL    NM    NOLA :=
-          PROD1  16    17     14    17     17     16.5  15.5
-          PROD2  17    20     15    18     18.5   15.5  17.5
-          PROD3  18    21     16    18     17     15    14;
-	
+param workers_drivers (tr):
+                 BOSTON   NEW_YORK   NEW_HAVEN :=
+           SF    9500     9000       9000
+           DET   2800     2600       2700
+           LA    9000     8800       8900
+           MIN   4500     4300       4300
+           STL   3500     3400       3300;
 
 param distance (tr): 	BOSTON		NEW_YORK		NEW_HAVEN :=
 			SF	 		3116   	    2921			2985
 			DET    		712 		632				691
 			LA	 		2987		2777			2888
 			MIN	 		1525		1368			1280
-			STL    		1188		953				1040
-			NM     		2231		1974			2061
-			NOLA   		1516		1305			1392 ;
+			STL    		1188		953				1040;
 
 param revenue    :=
-   PROD1      4000  
-   PROD2      2000  
-   PROD3      10000;
+   PROD1      2880  
+   PROD2      1440 
+   PROD3      7200
+   PROD4      5760
+   PROD5      6480
+   PROD6      5040;
+   
+param travel_time := 
+
+		[*, *, electronic]: 	SF		DET		LA		MIN		STL :=
+					BOSTON		25.97 	5.93	24.89	12.7	9.9	   
+					NEW_YORK	24.3	5.27	23.14	11.4 	7.94	
+					NEW_HAVEN	24.88	5.75	24.06	10.67	8.67
+		
+		[*, *, oil]:			SF		DET		LA		MIN		STL	:=
+					BOSTON		38.95	8.9		37.33	19		14.85	
+					NEW_YORK	36.5	5.27	34.71	17.1	11.91	
+					NEW_HAVEN	37.31	8.63	36.1	16		13	 ;
+
+  
      
 param cost     :=
-   electronic       0.1
-   oil              2;
+   electronic       5
+   oil              10;
 # 8  10
         
 param rent     :=
-   electronic        400    # 1231.16v 
-   oil               100;   
+   electronic        4000    # 1231.16v 
+   oil               1000;   
 
 param capacity :=
-   electronic     2      
-   oil            5 ; 
-
+   electronic     100      
+   oil            150 ; 
+   
+param car_limit :=
+	electronic		8000
+	oil				50;

@@ -1,0 +1,9 @@
+reset;
+model orproject.mod;
+data orproject.dat;
+option solver cplex;
+solve;
+display amount;
+display profit;
+display order;
+display Raw_material_cost;
